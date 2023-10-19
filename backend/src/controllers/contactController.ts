@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import {
   contactSchema,
-  emailSchema,
+  deleteSchema,
   updateSchema,
 } from "../validators/contact";
 import { db } from "../lib/db";
@@ -29,11 +29,11 @@ export const createContact = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(200).json({ message: "User created" });
+    res.status(200).json({ message: "Contact created" });
   } catch (error) {
     res
       .status(400)
-      .json({ message: "Error while creating user", error: error });
+      .json({ message: "Error while creating contact", error: error });
   }
 };
 
@@ -49,7 +49,7 @@ export const getContact = async (req: Request, res: Response) => {
     res.status(200).json({ data: contact });
   } catch (error) {
     res.status(400).json({
-      message: `Couldn't find user with id: ${req.params.id}`,
+      message: `Couldn't find contact with id: ${req.params.id}`,
       error: error,
     });
   }
@@ -76,7 +76,7 @@ export const updateContact = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(400).json({
-      message: `Couldn't update user with id: ${req.params.id}`,
+      message: `Couldn't update contact with id: ${req.params.id}`,
       error: error,
     });
   }
@@ -84,18 +84,18 @@ export const updateContact = async (req: Request, res: Response) => {
 
 export const deleteContact = async (req: Request, res: Response) => {
   try {
-    const { email } = emailSchema.parse(req.body);
+    const { id } = deleteSchema.parse(req.body);
 
     await db.contact.deleteMany({
       where: {
-        email,
+        id,
       },
     });
 
-    res.status(200).json({ msg: `Contact with email: ${email} was deleted!` });
+    res.status(200).json({ msg: `Contact with email: ${id} was deleted!` });
   } catch (error) {
     res.status(400).json({
-      message: `Error while deleting user with email: ${req.params.email}`,
+      message: `Error while deleting contact with email: ${req.params.id}`,
       error: error,
     });
   }

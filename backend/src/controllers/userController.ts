@@ -20,8 +20,7 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     if (userExists) {
-      res.status(400);
-      throw new Error("User already registered");
+      res.status(400).json("User already registered");
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -42,8 +41,7 @@ export const registerUser = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    res.status(400);
-    throw new Error("Invalid user data");
+    res.status(400).json("Invalid user data");
   }
 };
 export const loginUser = async (req: Request, res: Response) => {

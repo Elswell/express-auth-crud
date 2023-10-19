@@ -5,12 +5,10 @@ const contactSchema = z.object({
   email: z.string().email(),
   phoneNumber: z.string(),
 });
-type contactTypes = z.infer<typeof contactSchema>;
 
-const emailSchema = z.object({
-  email: z.string().email(),
+const deleteSchema = z.object({
+  id: z.string(),
 });
-type emailType = z.infer<typeof emailSchema>;
 
 // TODO: add regex for the id
 const updateSchema = z.object({
@@ -19,13 +17,5 @@ const updateSchema = z.object({
   email: z.string().email(),
   phoneNumber: z.string(),
 });
-type updateType = z.infer<typeof emailSchema>;
 
-export {
-  contactSchema,
-  contactTypes,
-  emailSchema,
-  emailType,
-  updateSchema,
-  updateType,
-};
+export { contactSchema, deleteSchema, updateSchema };
