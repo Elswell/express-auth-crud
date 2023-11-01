@@ -11,7 +11,7 @@ const SALT_ROUNDS = 1;
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    const { email, password, username } = await registerSchema.parse(req.body);
+    const { email, password, username } = registerSchema.parse(req.body);
 
     const userExists = await db.user.findUnique({
       where: {
@@ -65,6 +65,9 @@ export const loginUser = async (req: Request, res: Response) => {
         process.env.SECRET_KEY!,
         { expiresIn: "60m" }
       );
+
+      res.cookie("access_token", accessToken, { httpOnly: false });
+
       res.status(200).json({ accessToken });
     } else {
       res.status(400).json({ error: "Invalid user input" });
